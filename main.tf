@@ -16,7 +16,7 @@ terraform {
     }
   }
 
-  required_version = "~> 1.2.0"
+  required_version = "1.2.7"
 
   cloud {
     organization = "wortech"
