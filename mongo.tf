@@ -77,11 +77,12 @@ resource "kubernetes_deployment" "mongo" {
             }
           }
           volume_mount {
-            name       = local.volume_name
+            name       = "mongo-persistent-storage"
             mount_path = "/data/db"
           }
         }
         volume {
+          name = "mongo-persistent-storage"
           aws_elastic_block_store {
             volume_id = data.aws_ebs_volume.mongo.id
           }
