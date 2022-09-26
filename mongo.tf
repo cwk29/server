@@ -79,7 +79,7 @@ resource "kubernetes_deployment" "mongo" {
         }
         volume {
           aws_elastic_block_store {
-            volume_id = aws_ebs_volume.mongo.id
+            volume_id = data.aws_ebs_volume.mongo.id
           }
         }
       }
