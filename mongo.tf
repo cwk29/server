@@ -1,8 +1,18 @@
-resource "aws_ebs_volume" "mongo" {
-  availability_zone = data.aws_availability_zones.available.names[0]
-  size              = 1
-  tags = {
-    Name = "mongo-ebs-volume"
+# @todo - remove this from networking and restore here
+# resource "aws_ebs_volume" "mongo" {
+#   availability_zone = data.aws_availability_zones.available.names[0]
+#   size              = 1
+#   tags = {
+#     Name = "mongo-ebs-volume"
+#   }
+# }
+
+data "aws_ebs_volume" "mongo" {
+  most_recent = true
+
+  filter {
+    name   = "tag:Name"
+    values = ["mongo-ebs-volume"]
   }
 }
 
@@ -63,7 +73,7 @@ resource "kubernetes_deployment" "mongo" {
             }
           }
           volume_mount {
-            name       = aws_ebs_volume.mongo.tags.Name
+            name       = "mongo-persistent-storage"
             mount_path = "/data/db"
           }
         }
