@@ -7,12 +7,16 @@
 #   }
 # }
 
+locals {
+  volume_name = "mongo-ebs-volume"
+}
+
 data "aws_ebs_volume" "mongo" {
   most_recent = true
 
   filter {
     name   = "tag:Name"
-    values = ["mongo-ebs-volume"]
+    values = [local.volume_name]
   }
 }
 
@@ -73,7 +77,7 @@ resource "kubernetes_deployment" "mongo" {
             }
           }
           volume_mount {
-            name       = "mongo-persistent-storage"
+            name       = local.volume_name
             mount_path = "/data/db"
           }
         }
