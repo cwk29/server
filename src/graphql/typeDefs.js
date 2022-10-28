@@ -9,6 +9,14 @@ module.exports = gql`
     message: String!
   }
 
+  input ShopFormInput {
+    name: String!
+    company: String!
+    email: String!
+    telephone: String!
+    specifications: String!
+  }
+
   type Query {
     hello: String
   }
@@ -18,9 +26,7 @@ module.exports = gql`
   }
 
   type Mutation {
-    postContactForm(
-      contactFormInput: ContactFormInput!
-      token: String!
-    ): Boolean
+    postContactForm(contactFormInput: ContactFormInput!, token: String!): Boolean
+    postShopForm(shopFormInput: ShopFormInput!, token: String!): Boolean
   }
 `;

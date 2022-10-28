@@ -43,10 +43,10 @@ resource "kubernetes_deployment" "express" {
             name  = "NODEMAILER_PASS"
             value = var.nodemailer_password
           }
-          env {
-            name  = "MONGO_DB_URI"
-            value = "mongodb://${kubernetes_service.mongo.status.0.load_balancer.0.ingress.0.hostname}:27017"
-          }
+          # env {
+          #   name  = "MONGO_DB_URI"
+          #   value = "mongodb://${kubernetes_service.mongo.status.0.load_balancer.0.ingress.0.hostname}:27017"
+          # }
         }
       }
     }

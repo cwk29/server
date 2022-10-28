@@ -24,15 +24,19 @@ module.exports = {
     console.log("Sending email");
 
     // send mail with defined transport object
+    const subject = data.topic || "New Product Inquiry";
+    const company = data.company ? data.company : data.organization;
+    const content = data.message ? data.message : data.specifications;
     let info = await transporter.sendMail({
       from: NODEMAILER_USER, // sender address
       to: `${NODEMAILER_USER}, ckuykendall@wortechcorp.com`, // list of receivers
-      subject: `📩 ${data.topic}`, // Subject line
+      subject: `📩 ${subject}`, // Subject line
       html: `
           <h1>New inquiry from, ${data.name}</h1>
-          <p><b>Organization:</b> ${data.organization}</p>
+          <p><b>Organization:</b> ${company}</p>
           <p><b>Email:</b> ${data.email}</p>
-          <p>${data.message}</p>
+          <p><b>Telephone:</b> ${data.telephone}</p>
+          <p>${content}</p>
         `, // html body
     });
 

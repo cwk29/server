@@ -2,10 +2,7 @@ const express = require("express");
 const http = require("http");
 const mongoose = require("mongoose");
 const { ApolloServer } = require("apollo-server-express");
-const {
-  ApolloServerPluginDrainHttpServer,
-  ApolloServerPluginLandingPageLocalDefault,
-} = require("apollo-server-core");
+const { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageLocalDefault } = require("apollo-server-core");
 require("dotenv").config();
 
 const typeDefs = require("./graphql/typeDefs");
@@ -19,7 +16,7 @@ const MONGO_DB_URI = process.env.MONGO_DB_URI || "mongodb://localhost:27017";
 
 async function run() {
   // Connect to MongoDB
-  await mongoose.connect(MONGO_DB_URI);
+  // await mongoose.connect(MONGO_DB_URI);
 
   // Start Apollo Server
   const app = express();

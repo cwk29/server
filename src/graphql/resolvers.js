@@ -26,5 +26,12 @@ module.exports = {
 
       return await mailer.sendEmail(contactFormInput).catch(console.error);
     },
+    postShopForm: async (_, { shopFormInput, token }) => {
+      if (!token) {
+        throw new Error("Token not provided");
+      }
+
+      return await mailer.sendEmail(shopFormInput).catch(console.error);
+    },
   },
 };
