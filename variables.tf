@@ -27,3 +27,9 @@ variable "nodemailer_password" {
   type    = string
   default = ""
 }
+
+variable "trusted_accounts" {
+  description = "A list of AWS Account IDs you want to allow them access to the ECR repository"
+  type        = list(string)
+  default     = ["arn:aws:iam::060696402958:user/ckuykendall@wortechcorp.com"]
+}

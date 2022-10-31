@@ -1,3 +1,18 @@
+resource "kubernetes_secret" "ecr-registry" {
+  metadata {
+    name = "ecr-registry"
+  }
+  data = {
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "${data.aws_caller_identity.current.account_id}.dkr.ecr.us-east-1.amazonaws.com" = {
+          auth = data.aws_ecr_authorization_token.token.authorization_token
+        }
+      }
+    })
+  }
+  type = "kubernetes.io/dockerconfigjson"
+}
 
 resource "kubernetes_deployment" "express" {
   metadata {
@@ -21,9 +36,12 @@ resource "kubernetes_deployment" "express" {
         }
       }
       spec {
+        image_pull_secrets {
+          name = "ecr-registry"
+        }
         container {
           name  = "express"
-          image = "060696402958.dkr.ecr.us-east-1.amazonaws.com/express:latest"
+          image = "${data.aws_caller_identity.current.account_id}.dkr.ecr.us-east-1.amazonaws.com/express:latest"
           port {
             container_port = 4000
           }
