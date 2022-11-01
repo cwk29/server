@@ -1,13 +1,9 @@
-data "aws_ecr_repository" "service" {
-  name = "express"
-}
-
 resource "aws_ecr_repository_policy" "policy" {
-  repository = data.aws_ecr_repository.service.name
+  repository = "express"
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Sid = "AllowPushPull"
+      Sid    = "AllowPushPull"
       Effect = "Allow"
       Action = [
         "ecr:BatchGetImage",

@@ -15,10 +15,10 @@ terraform {
       version = "0.36.1"
     }
 
-    # docker = {
-    #   source  = "kreuzwerker/docker"
-    #   version = "2.18.0"
-    # }
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "2.18.0"
+    }
   }
 
   required_version = "1.2.7"
