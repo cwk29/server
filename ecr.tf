@@ -1,28 +1,23 @@
-resource "aws_ecr_repository" "repo" {
-  name                 = "express"
-  image_tag_mutability = "MUTABLE"
-
-  image_scanning_configuration {
-    scan_on_push = true
-  }
+data "aws_ecr_repository" "service" {
+  name = "express"
 }
 
 resource "aws_ecr_repository_policy" "policy" {
-  repository = aws_ecr_repository.repo.name
+  repository = data.aws_ecr_repository.service.name
   policy = jsonencode({
+    Version = "2012-10-17"
     Statement = [{
-      Sid = "AllowCrossAccountAccess"
-      Action = [
-        "ecr:BatchCheckLayerAvailability",
-        "ecr:BatchGetImage",
-        "ecr:DescribeImages",
-        "ecr:DescribeRepositories",
-        "ecr:GetAuthorizationToken",
-        "ecr:GetDownloadUrlForLayer",
-        "ecr:GetRepositoryPolicy",
-        "ecr:ListImages",
-      ]
+      Sid = "AllowPushPull"
       Effect = "Allow"
+      Action = [
+        "ecr:BatchGetImage",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:CompleteLayerUpload",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:InitiateLayerUpload",
+        "ecr:PutImage",
+        "ecr:UploadLayerPart"
+      ]
       Principal = {
         AWS = flatten([
           data.aws_caller_identity.current.account_id,
@@ -30,6 +25,5 @@ resource "aws_ecr_repository_policy" "policy" {
         ])
       }
     }]
-    Version = "2012-10-17"
   })
 }
